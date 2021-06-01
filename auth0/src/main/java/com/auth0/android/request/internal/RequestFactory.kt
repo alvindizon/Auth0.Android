@@ -68,7 +68,7 @@ internal class RequestFactory<U : Auth0Exception> internal constructor(
         client: NetworkingClient,
         resultAdapter: JsonAdapter<T>,
         errorAdapter: ErrorAdapter<U>,
-        threadSwitcher: ThreadSwitcher
+        threadSwitcher: TaskExecutor
     ): Request<T, U> = BaseRequest(method, url, client, resultAdapter, errorAdapter, threadSwitcher)
 
 
@@ -79,7 +79,7 @@ internal class RequestFactory<U : Auth0Exception> internal constructor(
         errorAdapter: ErrorAdapter<U>
     ): Request<T, U> {
         val request =
-            createRequest(method, url, client, resultAdapter, errorAdapter, DefaultThreadSwitcher)
+            createRequest(method, url, client, resultAdapter, errorAdapter, ArchTaskExecutor.instance)
         baseHeaders.map { request.addHeader(it.key, it.value) }
         return request
     }

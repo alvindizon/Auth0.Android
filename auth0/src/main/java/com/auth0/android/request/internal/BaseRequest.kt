@@ -20,10 +20,12 @@ internal open class BaseRequest<T, U : Auth0Exception>(
     private val client: NetworkingClient,
     private val resultAdapter: JsonAdapter<T>,
     private val errorAdapter: ErrorAdapter<U>,
-    private val threadSwitcher: ThreadSwitcher = DefaultThreadSwitcher
+    private val threadSwitcher: TaskExecutor
 ) : Request<T, U> {
 
-    private val options: RequestOptions = RequestOptions(method)
+
+    private
+    val options: RequestOptions = RequestOptions(method)
 
     override fun addHeader(name: String, value: String): Request<T, U> {
         options.headers[name] = value

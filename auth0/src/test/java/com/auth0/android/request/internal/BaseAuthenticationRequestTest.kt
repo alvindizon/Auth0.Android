@@ -30,6 +30,9 @@ public class BaseAuthenticationRequestTest {
     @Mock
     private lateinit var errorAdapter: ErrorAdapter<AuthenticationException>
 
+    @Mock
+    private lateinit var threadSwitcher: TaskExecutor
+
     private val optionsCaptor: KArgumentCaptor<RequestOptions> = argumentCaptor()
 
     @Before
@@ -39,7 +42,7 @@ public class BaseAuthenticationRequestTest {
 
     private fun createRequest(url: String): AuthenticationRequest {
         val baseRequest: Request<Credentials, AuthenticationException> =
-            BaseRequest(HttpMethod.POST, url, client, resultAdapter, errorAdapter)
+            BaseRequest(HttpMethod.POST, url, client, resultAdapter, errorAdapter, threadSwitcher)
         val request: AuthenticationRequest = BaseAuthenticationRequest(baseRequest)
         return Mockito.spy(request)
     }
